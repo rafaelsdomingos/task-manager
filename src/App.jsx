@@ -4,6 +4,7 @@ import Tasks from "./components/Tasks";
 import "./App.css";
 import AddTask from "./components/AddTask";
 import {v4 as uuidv4} from 'uuid';
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
     {
       id: '2',
       title: 'Estudar React',
-      completed: false,
+      completed: true,
     },
 
     {
@@ -40,12 +41,44 @@ const App = () => {
     setTasks(newTasks)
   }
 
+
+  const handleTaskDeletion = (taskId) => {
+    const newTasks = tasks.filter(task => task.id !== taskId)
+
+    setTasks(newTasks)
+  }
+
+
+
+  const handleTaskClick = (taskId) => {
+    const newTasks = tasks.map(
+      (task) => {
+        if (task.id === taskId) return { ...task, completed: !task.completed}
+        return task;
+      }
+    )
+
+    setTasks(newTasks)
+  }
+
   return(
-    <div className="container">
-      <h1 className="titulo-principal">Minhas Tarefas</h1>
-      <AddTask handleTaskAddition={handleTaskAddition}/>
-      <Tasks tasks={tasks}/>
-    </div>
+    <Router>
+
+      <div className="container">
+        <h1 className="titulo-principal">Minhas Tarefas</h1>
+            {/* <>
+                <AddTask handleTaskAddition={handleTaskAddition}/>
+                <Tasks 
+                  tasks={tasks} 
+                  handleTaskClick={handleTaskClick} 
+                  handleTaskDeletion={handleTaskDeletion}
+                />
+            </>   */}
+
+      </div>
+      
+    </Router>
+    
   )
 }
 
